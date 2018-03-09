@@ -14,28 +14,33 @@ namespace WebAddressBookTests
 		public void Create(ContactData contData)
 		{
 			manager.NavigatorH.OpenMainPage();
-			manager.ContactH.OpenNewContact();
-			manager.ContactH.FillContactFields(contData);
-			manager.ContactH.SubmitContactFields();
-			manager.ContactH.ReturnHomePage();
+			OpenNewContact();
+			FillContactFields(contData);
+			SubmitContactFields();
+			ReturnHomePage();
 		}
 
 		public void Modify(int index, ContactData newData)
 		{
 			manager.NavigatorH.OpenMainPage();
-			manager.ContactH.SelectContactItem(index);
-			manager.ContactH.InitEditionContact(index);
-			manager.ContactH.FillContactFields(newData);
-			manager.ContactH.UpdateContact();
-			manager.ContactH.ReturnHomePage();
+			SelectContactItem(index);
+			InitEditionContact(index);
+			FillContactFields(newData);
+			UpdateContact();
+			ReturnHomePage();
 		}
 
 		public void Remove(int index)
 		{
 			manager.NavigatorH.OpenMainPage();
-			manager.ContactH.SelectContactItem(index);
-			manager.ContactH.DeleteContact();
+			SelectContactItem(index);
+			DeleteContact();
 			manager.NavigatorH.OpenMainPage();
+		}
+
+		public bool CheckContactPresents()
+		{
+			return driver.FindElements(By.CssSelector("tr[name='entry']")).Count>0;
 		}
 
 		public void FillContactFields(ContactData contact)

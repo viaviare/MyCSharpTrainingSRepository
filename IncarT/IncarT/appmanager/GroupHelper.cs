@@ -12,28 +12,34 @@ namespace WebAddressBookTests
 		public void Create(GroupData groupData)
 		{
 			manager.NavigatorH.OpenGroupPage();
-			manager.GroupH.InitNewGroup();
-			manager.GroupH.FillGroupFields(groupData);
-			manager.GroupH.SubmitGroupFields();
-			manager.GroupH.ReturnGroupPage();
+			InitNewGroup();
+			FillGroupFields(groupData);
+			SubmitGroupFields();
+			ReturnGroupPage();
 		}
 
 		public void Modify(int index, GroupData newData)
 		{
 			manager.NavigatorH.OpenGroupPage();
-			manager.GroupH.SelectGroupItem(index);
-			manager.GroupH.EditGroup();
-			manager.GroupH.FillGroupFields(newData);
-			manager.GroupH.UpdateGroup();
-			manager.GroupH.ReturnGroupPage();
+			SelectGroupItem(index);
+			EditGroup();
+			FillGroupFields(newData);
+			UpdateGroup();
+			ReturnGroupPage();
 		}
 
 		internal void Remove(int index)
 		{
 			manager.NavigatorH.OpenGroupPage();
-			manager.GroupH.SelectGroupItem(index);
-			manager.GroupH.DeleteGroup();
-			manager.GroupH.ReturnGroupPage();
+			SelectGroupItem(index);
+			DeleteGroup();
+			ReturnGroupPage();
+		}
+
+		public bool CheckGroupPresents()
+		{
+			manager.NavigatorH.OpenGroupPage();
+			return driver.FindElements(By.CssSelector("span.group")).Count > 0;
 		}
 
 		public void FillGroupFields(GroupData group)
