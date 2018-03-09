@@ -11,14 +11,27 @@ namespace WebAddressBookTests
 			this.baseURL = baseURL;
 		}
 
-		public void OpenMainPage()
+		public bool CheckAddressLocator(string address, By locator)
 		{
-			driver.FindElement(By.LinkText("home")).Click();
+			return driver.Url == baseURL + address && IsElementPresent(locator);
 		}
 
 		public void OpenGroupPage()
 		{
+			if (CheckAddressLocator("/addressbook/group.php", By.Name("edit")))
+			{
+				return;
+			}
 			driver.FindElement(By.LinkText("groups")).Click();
+		}
+
+		public void OpenMainPage()
+		{
+			if (CheckAddressLocator("/addressbook/", By.LinkText("Logout")))
+			{
+				return;
+			}
+			driver.FindElement(By.LinkText("home")).Click();
 		}
 
 		public void OpenStartPage()
