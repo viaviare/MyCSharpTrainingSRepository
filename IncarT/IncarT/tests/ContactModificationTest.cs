@@ -4,7 +4,7 @@
 namespace WebAddressBookTests
 {
 	[TestFixture]
-	public class ContactModificationTests : TestBase
+	public class ContactModificationTests : TestBaseAuth
 	{
 		[Test]
 		public void ContactModificationTest()

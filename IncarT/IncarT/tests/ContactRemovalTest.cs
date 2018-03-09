@@ -4,7 +4,7 @@
 namespace WebAddressBookTests
 {
 	[TestFixture]
-	public class ContactRemovalTests : TestBase
+	public class ContactRemovalTests : TestBaseAuth
 	{
 		[Test]
 		public void ContactRemovalTest()

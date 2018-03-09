@@ -18,5 +18,18 @@ namespace WebAddressBookTests
 			driver.FindElement(Locator).Clear();
 			driver.FindElement(Locator).SendKeys(test);
 		}
+
+		public bool IsElementPresent(By by)
+		{
+			try
+			{
+				driver.FindElement(by);
+				return true;
+			}
+			catch (NoSuchElementException)
+			{
+				return false;
+			}
+		}
 	}
 }

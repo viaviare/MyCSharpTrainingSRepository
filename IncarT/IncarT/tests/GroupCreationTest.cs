@@ -4,7 +4,7 @@
 namespace WebAddressBookTests
 {
 	[TestFixture]
-	public class GroupCreationTests : TestBase
+	public class GroupCreationTests : TestBaseAuth
 	{
 		[Test]
 		public void GroupCreationTest()

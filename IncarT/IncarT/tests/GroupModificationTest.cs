@@ -1,10 +1,9 @@
-﻿using System;
-using NUnit.Framework;
+﻿using NUnit.Framework;
 
 namespace WebAddressBookTests
 {
 	[TestFixture]
-	class GroupModificationTests : TestBase
+	class GroupModificationTests : TestBaseAuth
 	{
 		[Test]
 		public void GroupModificationTest()
