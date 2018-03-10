@@ -37,17 +37,22 @@ namespace WebAddressBookTests
 			manager.NavigatorH.OpenMainPage();
 		}
 
+		private List<ContactData> contactCache;
+
 		public List<ContactData> GetContactList()
 		{
-			List<ContactData> contact = new List<ContactData>();
-			ICollection<IWebElement> items = driver.FindElements(By.CssSelector("tr[name='entry']"));
-			foreach (IWebElement item in items)
+			if (contactCache == null)
 			{
-				string lastName = item.FindElement(By.CssSelector("td:nth-of-type(2)")).Text;
-				string firstName = item.FindElement(By.CssSelector("td:nth-of-type(3)")).Text;
-				contact.Add(new ContactData(firstName, lastName));
-			}			
-			return contact;
+				contactCache = new List<ContactData>();
+				ICollection<IWebElement> items = driver.FindElements(By.CssSelector("tr[name='entry']"));
+				foreach (IWebElement item in items)
+				{
+					string lastName = item.FindElement(By.CssSelector("td:nth-of-type(2)")).Text;
+					string firstName = item.FindElement(By.CssSelector("td:nth-of-type(3)")).Text;
+					contactCache.Add(new ContactData(firstName, lastName));
+				}
+			}
+			return new List<ContactData>(contactCache);
 		}
 
 		internal int CountContactItems()
@@ -74,17 +79,20 @@ namespace WebAddressBookTests
 		public void UpdateContact()
 		{
 			driver.FindElement(By.Name("update")).Click();
+			contactCache = null;
 		}
 
 		public void SubmitContactFields()
 		{
 			driver.FindElement(By.Name("submit")).Click();
+			contactCache = null;
 		}
 
 		public void DeleteContact()
 		{
 			driver.FindElement(By.CssSelector("input[value = Delete]")).Click();
 			driver.SwitchTo().Alert().Accept();
+			contactCache = null;
 		}
 
 		public void OpenNewContact()

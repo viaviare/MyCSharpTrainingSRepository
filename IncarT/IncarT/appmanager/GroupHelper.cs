@@ -37,17 +37,21 @@ namespace WebAddressBookTests
 			ReturnGroupPage();
 		}
 
+		private List<GroupData> groupCache;
 
 		public List<GroupData> GetGroupList()
 		{
-			List<GroupData> group = new List<GroupData>();
-			manager.NavigatorH.OpenGroupPage();
-			ICollection<IWebElement> items = driver.FindElements(By.CssSelector("span.group"));
-			foreach (IWebElement item in items)
+			if (groupCache == null)
 			{
-				group.Add(new GroupData(item.Text));
+				groupCache = new List<GroupData>();
+				manager.NavigatorH.OpenGroupPage();
+				ICollection<IWebElement> items = driver.FindElements(By.CssSelector("span.group"));
+				foreach (IWebElement item in items)
+				{
+					groupCache.Add(new GroupData(item.Text));
+				}
 			}
-			return group;
+			return new List<GroupData>(groupCache);
 		}
 
 		public int CountGroupItems()
@@ -71,16 +75,19 @@ namespace WebAddressBookTests
 		public void UpdateGroup()
 		{
 			driver.FindElement(By.Name("update")).Click();
+			groupCache = null;
 		}
 
 		public void SubmitGroupFields()
 		{
 			driver.FindElement(By.Name("submit")).Click();
+			groupCache = null;
 		}
 
 		public void DeleteGroup()
 		{
 			driver.FindElement(By.Name("delete")).Click();
+			groupCache = null;
 		}
 
 		public void EditGroup()
