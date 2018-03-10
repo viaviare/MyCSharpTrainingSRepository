@@ -1,7 +1,6 @@
 ﻿using OpenQA.Selenium;
-using OpenQA.Selenium.Chrome;
-using NUnit.Framework;
 using System;
+using System.Collections.Generic;
 
 namespace WebAddressBookTests
 {
@@ -38,9 +37,22 @@ namespace WebAddressBookTests
 			manager.NavigatorH.OpenMainPage();
 		}
 
-		public bool CheckContactPresents()
+		public List<ContactData> GetContactList()
 		{
-			return driver.FindElements(By.CssSelector("tr[name='entry']")).Count>0;
+			List<ContactData> contact = new List<ContactData>();
+			ICollection<IWebElement> items = driver.FindElements(By.CssSelector("tr[name='entry']"));
+			foreach (IWebElement item in items)
+			{
+				string lastName = item.FindElement(By.CssSelector("td:nth-of-type(2)")).Text;
+				string firstName = item.FindElement(By.CssSelector("td:nth-of-type(3)")).Text;
+				contact.Add(new ContactData(firstName, lastName));
+			}			
+			return contact;
+		}
+
+		internal int CountContactItems()
+		{
+			return driver.FindElements(By.CssSelector("tr[name='entry']")).Count;
 		}
 
 		public void FillContactFields(ContactData contact)

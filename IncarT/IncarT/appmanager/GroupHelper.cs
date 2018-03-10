@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using OpenQA.Selenium;
 
 namespace WebAddressBookTests
@@ -36,10 +37,23 @@ namespace WebAddressBookTests
 			ReturnGroupPage();
 		}
 
-		public bool CheckGroupPresents()
+
+		public List<GroupData> GetGroupList()
+		{
+			List<GroupData> group = new List<GroupData>();
+			manager.NavigatorH.OpenGroupPage();
+			ICollection<IWebElement> items = driver.FindElements(By.CssSelector("span.group"));
+			foreach (IWebElement item in items)
+			{
+				group.Add(new GroupData(item.Text));
+			}
+			return group;
+		}
+
+		public int CountGroupItems()
 		{
 			manager.NavigatorH.OpenGroupPage();
-			return driver.FindElements(By.CssSelector("span.group")).Count > 0;
+			return driver.FindElements(By.CssSelector("span.group")).Count;
 		}
 
 		public void FillGroupFields(GroupData group)

@@ -4,8 +4,7 @@ using System.Text.RegularExpressions;
 using System.Threading;
 using NUnit.Framework;
 using OpenQA.Selenium;
-using OpenQA.Selenium.Firefox;
-using OpenQA.Selenium.Support.UI;
+using System.Collections.Generic;
 
 namespace WebAddressBookTests
 {
@@ -18,7 +17,15 @@ namespace WebAddressBookTests
 		{
 			ContactData contData = new ContactData("uu", "yy");
 
+			List<ContactData> oldContact = app.ContactH.GetContactList();
+
 			app.ContactH.Create(contData);
+
+			oldContact.Add(contData);
+			List<ContactData> newContact = app.ContactH.GetContactList();
+			oldContact.Sort();
+			newContact.Sort();
+			Assert.AreEqual(oldContact, newContact);
 
 		}
 	}

@@ -1,4 +1,5 @@
 ﻿using NUnit.Framework;
+using System.Collections.Generic;
 
 
 namespace WebAddressBookTests
@@ -15,7 +16,16 @@ namespace WebAddressBookTests
 				Footer = "nene"
 			};
 
+			List<GroupData> oldGroup = app.GroupH.GetGroupList();
+
 			app.GroupH.Create(groupData);
+
+			oldGroup.Add(groupData);
+
+			List<GroupData> newGroup = app.GroupH.GetGroupList();
+			oldGroup.Sort();
+			newGroup.Sort();
+			Assert.AreEqual(oldGroup, newGroup);
 		}
 	}
 }

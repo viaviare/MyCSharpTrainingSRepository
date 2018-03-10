@@ -1,4 +1,4 @@
-﻿using System;
+﻿using System.Collections.Generic;
 using NUnit.Framework;
 
 
@@ -12,12 +12,23 @@ namespace WebAddressBookTests
 		{
 			ContactData tempData = new ContactData("z", "z");
 			ContactData newData = new ContactData("11", "22");
+			int index = 0;
 
-			if (! app.ContactH.CheckContactPresents())
+			if (app.ContactH.CountContactItems() == 0)
 			{
 				app.ContactH.Create(tempData);
 			}
-			app.ContactH.Modify(0, newData);
+			List<ContactData> oldContact = app.ContactH.GetContactList();
+
+			app.ContactH.Modify(index, newData);
+
+			oldContact[index].FirstName = newData.FirstName;
+			oldContact[index].LastName = newData.LastName;
+
+			List<ContactData> newContact = app.ContactH.GetContactList();
+			oldContact.Sort();
+			newContact.Sort();
+			Assert.AreEqual(oldContact, newContact);
 		}
 	}
 }
