@@ -13,6 +13,11 @@ namespace WebAddressBookTests
 		private string amonth = "March";
 		private string ayear = "2008";
 		private string allphones;
+		private string allinfo;
+
+
+		public ContactData()
+		{}
 
 		public ContactData(string firstname, string lastname)
 		{
@@ -40,9 +45,8 @@ namespace WebAddressBookTests
 				}
 				else
 				{
-					allphones = (ClearUp(Home) + ClearUp(Mobile) + ClearUp(Work)).Trim();
+					return (ClearUp(Home) + ClearUp(Mobile) + ClearUp(Work)).Trim();
 				}
-				return allphones;
 			}
 			set { allphones = value; }
 		}
@@ -56,6 +60,23 @@ namespace WebAddressBookTests
 			return Regex.Replace(phone, "[ ()-]", "") + "\r\n";
 		}
 
+		public string AllInfo
+		{
+			get
+			{
+				if (allinfo != null)
+				{
+					return allinfo;
+				}
+				return (FirstName + Convert.ToChar(32) + LastName + "\r\n"
+					+  Address + "\r\n" + Home + Mobile + Work).Trim();
+
+			}
+			set
+			{
+				allinfo = value;
+			}
+		}
 
 		public string Middlename { get; set; }
 

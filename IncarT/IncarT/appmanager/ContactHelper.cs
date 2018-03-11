@@ -1,6 +1,7 @@
 ﻿using OpenQA.Selenium;
 using System;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 
 namespace WebAddressBookTests
 {
@@ -55,7 +56,7 @@ namespace WebAddressBookTests
 			return new List<ContactData>(contactCache);
 		}
 
-		public ContactData GetPageData(int index)
+		public ContactData GetContactPageData(int index)
 		{
 			manager.NavigatorH.OpenMainPage();
 			IList<IWebElement> itemLines = driver.FindElements(By.XPath("//tr[@name='entry']/td"));
@@ -72,7 +73,7 @@ namespace WebAddressBookTests
 			return contact;
 		}
 
-		public ContactData GetFormData(int index)
+		public ContactData GetContactFormData(int index)
 		{
 			manager.NavigatorH.OpenMainPage();
 			SelectContactItem(index);
@@ -94,6 +95,19 @@ namespace WebAddressBookTests
 			return contact;
 		}
 
+		public ContactData GetContactDetailsData(int index)
+		{
+			manager.NavigatorH.OpenMainPage();
+			SelectContactItem(index);
+			InitViewDetailsContact(index);
+			string clearPhone = @"[HMW]:\s";
+			ContactData contact = new ContactData()
+			{
+				AllInfo = Regex.Replace(driver.FindElement(By.CssSelector("div#content")).Text, @"\r\n[HMW]:\s", "")
+			};
+			return contact;
+		}
+ 
 		public int CountContactItems()
 		{
 			return driver.FindElements(By.CssSelector("tr[name='entry']")).Count;
@@ -108,6 +122,11 @@ namespace WebAddressBookTests
 		public void InitEditionContact(int index)
 		{
 			driver.FindElement(By.XPath("(//img[@alt='Edit'])[" + (index + 1) + "]")).Click();
+		}
+
+		public void InitViewDetailsContact(int index)
+		{
+			driver.FindElement(By.XPath("(//img[@alt='Details'])[" + (index + 1) + "]")).Click();
 		}
 
 		public void SelectContactItem(int index)
