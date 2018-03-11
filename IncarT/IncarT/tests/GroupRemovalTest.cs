@@ -24,11 +24,17 @@ namespace WebAddressBookTests
 
 				app.GroupH.Remove(index);
 
+				GroupData removedGroup = oldGroup[index];
 				oldGroup.RemoveAt(index);
 				List<GroupData> newGroup = app.GroupH.GetGroupList();
 				oldGroup.Sort();
 				newGroup.Sort();
 				Assert.AreEqual(oldGroup, newGroup);
+
+				foreach (GroupData currentGroup in newGroup)
+				{
+					Assert.AreNotEqual(currentGroup.Id, removedGroup.Id);
+				}
 			}
 			else
 			{
