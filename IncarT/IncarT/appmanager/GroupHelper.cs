@@ -50,7 +50,7 @@ namespace WebAddressBookTests
 				{
 					groupCache.Add(new GroupData(item.Text)
 					{
-						Id = item.FindElement(By.TagName("input")).GetAttribute("Value")
+						Id = item.FindElement(By.TagName("input")).GetAttribute("value")
 					});
 				}
 			}

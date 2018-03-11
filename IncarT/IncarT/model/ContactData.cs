@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Text.RegularExpressions;
+
 
 namespace WebAddressBookTests
 	{
@@ -14,6 +12,7 @@ namespace WebAddressBookTests
 		private string aday = "1";
 		private string amonth = "March";
 		private string ayear = "2008";
+		private string allphones;
 
 		public ContactData(string firstname, string lastname)
 		{
@@ -25,6 +24,39 @@ namespace WebAddressBookTests
 
 		public string LastName { get; set; }
 
+		public string Home { get; set; }
+
+		public string Mobile { get; set; }
+
+		public string Work { get; set; }
+
+		public string AllPhones
+		{
+			get
+			{
+				if (allphones != null)
+				{
+					return allphones;
+				}
+				else
+				{
+					allphones = (ClearUp(Home) + ClearUp(Mobile) + ClearUp(Work)).Trim();
+				}
+				return allphones;
+			}
+			set { allphones = value; }
+		}
+
+		private string ClearUp(string phone)
+		{
+			if (phone == null || phone == "")
+			{
+				return phone = "";
+			}
+			return Regex.Replace(phone, "[ ()-]", "") + "\r\n";
+		}
+
+
 		public string Middlename { get; set; }
 
 		public string Nickname { get; set; }
@@ -34,12 +66,6 @@ namespace WebAddressBookTests
 		public string Company { get; set; }
 
 		public string Address { get; set; }
-
-		public string Home { get; set; }
-
-		public string Mobile { get; set; }
-
-		public string Work { get; set; }
 
 		public string Fax { get; set; }
 
@@ -94,7 +120,7 @@ namespace WebAddressBookTests
 			{ return false; }
 			if (Object.ReferenceEquals(this, other))
 			{ return true; }
-			return LastName + FirstName == other.LastName + other.FirstName;
+			return LastName == other.LastName && FirstName == other.FirstName;
 		}
 
 		public override int GetHashCode()

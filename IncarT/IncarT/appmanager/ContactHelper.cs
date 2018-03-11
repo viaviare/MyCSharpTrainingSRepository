@@ -55,7 +55,46 @@ namespace WebAddressBookTests
 			return new List<ContactData>(contactCache);
 		}
 
-		internal int CountContactItems()
+		public ContactData GetPageData(int index)
+		{
+			manager.NavigatorH.OpenMainPage();
+			IList<IWebElement> itemLines = driver.FindElements(By.XPath("//tr[@name='entry']/td"));
+			string lastName = itemLines[1].Text;
+			string firstName = itemLines[2].Text;
+			string address = itemLines[3].Text;
+			string allPhones = itemLines[5].Text;
+
+			ContactData contact = new ContactData(firstName, lastName)
+			{
+				Address = address,
+				AllPhones = allPhones
+			};
+			return contact;
+		}
+
+		public ContactData GetFormData(int index)
+		{
+			manager.NavigatorH.OpenMainPage();
+			SelectContactItem(index);
+			InitEditionContact(index);
+			string lastName = driver.FindElement(By.CssSelector("input[name = 'lastname']")).GetAttribute("value");
+			string firstName = driver.FindElement(By.CssSelector("input[name = 'firstname']")).GetAttribute("value");
+			string address = driver.FindElement(By.CssSelector("textarea[name = 'address']")).GetAttribute("value");
+
+			string homePhone = driver.FindElement(By.CssSelector("input[name = 'home']")).GetAttribute("value");
+			string mobilePhone = driver.FindElement(By.CssSelector("input[name = 'mobile']")).GetAttribute("value");
+			string workPhone = driver.FindElement(By.CssSelector("input[name = 'work']")).GetAttribute("value");
+			ContactData contact = new ContactData(firstName, lastName)
+			{
+				Address = address,
+				Home = homePhone,
+				Mobile = mobilePhone,
+				Work = workPhone
+			};
+			return contact;
+		}
+
+		public int CountContactItems()
 		{
 			return driver.FindElements(By.CssSelector("tr[name='entry']")).Count;
 		}
