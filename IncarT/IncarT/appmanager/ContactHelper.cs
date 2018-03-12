@@ -100,7 +100,6 @@ namespace WebAddressBookTests
 			manager.NavigatorH.OpenMainPage();
 			SelectContactItem(index);
 			InitViewDetailsContact(index);
-			string clearPhone = @"[HMW]:\s";
 			ContactData contact = new ContactData()
 			{
 				AllInfo = Regex.Replace(driver.FindElement(By.CssSelector("div#content")).Text, @"\r\n[HMW]:\s", "")
