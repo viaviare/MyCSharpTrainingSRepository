@@ -1,9 +1,4 @@
-﻿using System;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Threading;
-using NUnit.Framework;
-using OpenQA.Selenium;
+﻿using NUnit.Framework;
 using System.Collections.Generic;
 
 namespace WebAddressBookTests
@@ -12,11 +7,9 @@ namespace WebAddressBookTests
 	public class ContactCreationTests : TestBaseAuth
 	{
 
-		[Test]
-		public void ContactCreationTest()
+		[Test, TestCaseSource ("RandomContactDataProvider")]
+		public void ContactCreationTest(ContactData contData)
 		{
-			ContactData contData = new ContactData("uu", "yy");
-
 			List<ContactData> oldContact = app.ContactH.GetContactList();
 
 			app.ContactH.Create(contData);
@@ -27,6 +20,19 @@ namespace WebAddressBookTests
 			newContact.Sort();
 			Assert.AreEqual(oldContact, newContact);
 
+		}
+
+		public static IEnumerable<ContactData> RandomContactDataProvider()
+		{
+			List<ContactData> contact = new List<ContactData>();
+			for (int j = 0; j < 3; j++)
+			{
+				contact.Add(new ContactData(GenerateRandomString(10), GenerateRandomString(15))
+				{
+					Address = GenerateRandomString(30)
+				});
+			}
+			return contact;
 		}
 	}
 }

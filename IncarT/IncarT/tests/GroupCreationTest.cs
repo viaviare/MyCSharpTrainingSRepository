@@ -1,20 +1,14 @@
 ﻿using NUnit.Framework;
 using System.Collections.Generic;
 
-
 namespace WebAddressBookTests
 {
 	[TestFixture]
 	public class GroupCreationTests : TestBaseAuth
 	{
-		[Test]
-		public void GroupCreationTest()
+		[Test, TestCaseSource ("RandomGroupDataProvider")]
+		public void GroupCreationTest(GroupData groupData)
 		{
-			GroupData groupData = new GroupData("lili")
-			{
-				Header = "oror",
-				Footer = "nene"
-			};
 
 			List<GroupData> oldGroup = app.GroupH.GetGroupList();
 
@@ -26,6 +20,21 @@ namespace WebAddressBookTests
 			oldGroup.Sort();
 			newGroup.Sort();
 			Assert.AreEqual(oldGroup, newGroup);
+		}
+
+
+		public static IEnumerable<GroupData> RandomGroupDataProvider()
+		{
+			List<GroupData> group = new List<GroupData>();
+			for (int j = 0; j < 3; j++)
+			{
+				group.Add(new GroupData(GenerateRandomString(10))
+				{
+					Header = GenerateRandomString(20),
+					Footer = GenerateRandomString(20)
+				});
+			}
+			return group;
 		}
 	}
 }

@@ -41,7 +41,7 @@ namespace WebAddressBookTests
 
 		public override string ToString()
 		{
-			return "name = " + Name.ToString();
+			return "name = " + Name.ToString() + ", header = " + Header.ToString() + ", footer = " + Footer.ToString();
 		} 
 
 		public int CompareTo(GroupData other)
