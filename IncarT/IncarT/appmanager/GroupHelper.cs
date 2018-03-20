@@ -29,10 +29,28 @@ namespace WebAddressBookTests
 			ReturnGroupPage();
 		}
 
-		internal void Remove(int index)
+		public void Modify(GroupData group, GroupData newData)
+		{
+			manager.NavigatorH.OpenGroupPage();
+			SelectGroupItem(group.Id);
+			EditGroup();
+			FillGroupFields(newData);
+			UpdateGroup();
+			ReturnGroupPage();
+		}
+
+		public void Remove(int index)
 		{
 			manager.NavigatorH.OpenGroupPage();
 			SelectGroupItem(index);
+			DeleteGroup();
+			ReturnGroupPage();
+		}
+
+		public void Remove(GroupData group)
+		{
+			manager.NavigatorH.OpenGroupPage();
+			SelectGroupItem(group.Id);
 			DeleteGroup();
 			ReturnGroupPage();
 		}
@@ -73,6 +91,12 @@ namespace WebAddressBookTests
 		public void SelectGroupItem(int index)
 		{
 			driver.FindElement(By.XPath("(//input[@name='selected[]'])[" + (index + 1) + "]")).Click();
+		}
+
+		public GroupHelper SelectGroupItem(string id)
+		{
+			driver.FindElement(By.XPath("//input[@name='selected[]' and @value = '" + id + "']")).Click();
+			return this;
 		}
 
 		public void UpdateGroup()

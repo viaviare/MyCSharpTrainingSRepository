@@ -4,26 +4,26 @@ using System.Collections.Generic;
 namespace WebAddressBookTests
 {
 	[TestFixture]
-	class GroupModificationTests : TestBaseAuth
+	class GroupModificationTests : GroupTestBase
 	{
 		[Test]
 		public void GroupModificationTest()
 		{
-			GroupData tempData = new GroupData("zz");
+			GroupData tempData = new GroupData("zz", "qq", "aa");
 			GroupData newData = new GroupData("o", "l", "x");
 			int index = 0;
 
-			if (app.ContactH.CountContactItems() == 0)
+			if (app.GroupH.CountGroupItems() == 0)
 			{				
 				app.GroupH.Create(tempData);
 			}
-			List<GroupData> oldGroup = app.GroupH.GetGroupList();
-
-			app.GroupH.Modify(index, newData);
+			List<GroupData> oldGroup = GroupData.GetAll();
 			GroupData modifiedGroup = oldGroup[index];
-			oldGroup[index].Name = newData.Name;
+			modifiedGroup.Name = newData.Name;
 
-			List<GroupData> newGroup = app.GroupH.GetGroupList();
+			app.GroupH.Modify(modifiedGroup, newData);
+
+			List<GroupData> newGroup = GroupData.GetAll();
 			oldGroup.Sort();
 			newGroup.Sort();
 			Assert.AreEqual(oldGroup, newGroup);

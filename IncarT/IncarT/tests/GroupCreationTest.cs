@@ -8,19 +8,19 @@ using Newtonsoft.Json;
 namespace WebAddressBookTests
 {
 	[TestFixture]
-	public class GroupCreationTests : TestBaseAuth
+	public class GroupCreationTests : GroupTestBase
 	{
-		[Test, TestCaseSource ("ContactDataFromJson")]
+		[Test, TestCaseSource ("GroupDataFromJson")]
 		public void GroupCreationTest(GroupData groupData)
 		{
 
-			List<GroupData> oldGroup = app.GroupH.GetGroupList();
+			List<GroupData> oldGroup = GroupData.GetAll();
 
 			app.GroupH.Create(groupData);
 
 			oldGroup.Add(groupData);
 
-			List<GroupData> newGroup = app.GroupH.GetGroupList();
+			List<GroupData> newGroup = GroupData.GetAll();
 			oldGroup.Sort();
 			newGroup.Sort();
 			Assert.AreEqual(oldGroup, newGroup);
