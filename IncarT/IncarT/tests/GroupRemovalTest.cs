@@ -18,27 +18,21 @@ namespace WebAddressBookTests
 			{
 				app.GroupH.Create(tempData);
 			}
-			if (app.GroupH.CountGroupItems() > 1)
+
+			List<GroupData> oldGroup = app.GroupH.GetGroupList();
+
+			app.GroupH.Remove(index);
+
+			GroupData removedGroup = oldGroup[index];
+			oldGroup.RemoveAt(index);
+			List<GroupData> newGroup = app.GroupH.GetGroupList();
+			oldGroup.Sort();
+			newGroup.Sort();
+			Assert.AreEqual(oldGroup, newGroup);
+
+			foreach (GroupData currentGroup in newGroup)
 			{
-				List<GroupData> oldGroup = app.GroupH.GetGroupList();
-
-				app.GroupH.Remove(index);
-
-				GroupData removedGroup = oldGroup[index];
-				oldGroup.RemoveAt(index);
-				List<GroupData> newGroup = app.GroupH.GetGroupList();
-				oldGroup.Sort();
-				newGroup.Sort();
-				Assert.AreEqual(oldGroup, newGroup);
-
-				foreach (GroupData currentGroup in newGroup)
-				{
-					Assert.AreNotEqual(currentGroup.Id, removedGroup.Id);
-				}
-			}
-			else
-			{
-				app.GroupH.Remove(0);
+				Assert.AreNotEqual(currentGroup.Id, removedGroup.Id);
 			}
 			
 		}

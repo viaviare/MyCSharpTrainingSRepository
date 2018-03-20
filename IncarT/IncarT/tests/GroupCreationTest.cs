@@ -53,16 +53,5 @@ namespace WebAddressBookTests
 				File.ReadAllText(@"groups.json"));
 		}
 
-		public static IEnumerable<ContactData> ContactDataFromXml()
-		{
-			return (List<ContactData>)new XmlSerializer(typeof(List<ContactData>))
-				.Deserialize(new StreamReader(@"contacts.xml"));
-		}
-
-		public static IEnumerable<ContactData> ContactDataFromJson()
-		{
-			return JsonConvert.DeserializeObject<List<ContactData>>(
-				File.ReadAllText(@"contacts.json"));
-		}
 	}
 }
