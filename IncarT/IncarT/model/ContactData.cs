@@ -163,7 +163,7 @@ namespace WebAddressBookTests
 			if (Object.ReferenceEquals(other, null))
 			{ return 1; }
 
-			return LastName.CompareTo(other.LastName);
+			return (LastName + FirstName).CompareTo(other.LastName + other.FirstName);
 		}
 
 		public static List<ContactData> GetAll()
