@@ -1,9 +1,13 @@
 ﻿using System;
 using System.Text.RegularExpressions;
+using System.Linq;
+using LinqToDB.Mapping;
+using System.Collections.Generic;
 
 
 namespace WebAddressBookTests
 	{
+	[Table(Name = "addressbook")]
 	public class ContactData: IEquatable<ContactData>, IComparable<ContactData>
 	{
 		private string bday = "1";
@@ -24,16 +28,29 @@ namespace WebAddressBookTests
 			FirstName = firstname;
 			LastName = lastname;
 		}
-
+		[Column(Name = "firstname")]
 		public string FirstName { get; set; }
 
+		[Column(Name = "lastname")]
 		public string LastName { get; set; }
 
+		[Column(Name = "home")]
 		public string Home { get; set; }
 
+		[Column(Name = "mobile")]
 		public string Mobile { get; set; }
 
+		[Column(Name = "work")]
 		public string Work { get; set; }
+
+		[Column(Name = "address")]
+		public string Address { get; set; }
+
+		[Column(Name = "id"), PrimaryKey, Identity]
+		public string Id { get; set; }
+
+		[Column(Name = "deprecated")]
+		public string Deprecated { get; set; }
 
 		public string AllPhones
 		{
@@ -79,29 +96,16 @@ namespace WebAddressBookTests
 		}
 
 		public string Middlename { get; set; }
-
 		public string Nickname { get; set; }
-
 		public string Title { get; set; }
-
 		public string Company { get; set; }
-
-		public string Address { get; set; }
-
 		public string Fax { get; set; }
-
 		public string Email { get; set; }
-
 		public string Email2 { get; set; }
-
 		public string Email3 { get; set; }
-
 		public string Homepage { get; set; }
-
 		public string Address2 { get; set; }
-
 		public string Phone2 { get; set; }
-
 		public string Notes { get; set; }
 
 		public string Bday
@@ -160,6 +164,14 @@ namespace WebAddressBookTests
 			{ return 1; }
 
 			return LastName.CompareTo(other.LastName);
+		}
+
+		public static List<ContactData> GetAll()
+		{
+			using (AddressbookDB db = new AddressbookDB())
+			{
+				return (from c in db.Contacts.Where(x=> x.Deprecated == "0000-00-00 00:00:00") select c).ToList();
+			}
 		}
 
 	}

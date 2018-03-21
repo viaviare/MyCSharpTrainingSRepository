@@ -7,18 +7,18 @@ using Newtonsoft.Json;
 namespace WebAddressBookTests
 {
 	[TestFixture]
-	public class ContactCreationTests : TestBaseAuth
+	public class ContactCreationTests : ContactTestBase
 	{
 
 		[Test, TestCaseSource ("RandomContactDataProvider")]
 		public void ContactCreationTest(ContactData contData)
 		{
-			List<ContactData> oldContact = app.ContactH.GetContactList();
+			List<ContactData> oldContact = ContactData.GetAll();
 
 			app.ContactH.Create(contData);
 
 			oldContact.Add(contData);
-			List<ContactData> newContact = app.ContactH.GetContactList();
+			List<ContactData> newContact = ContactData.GetAll();
 			oldContact.Sort();
 			newContact.Sort();
 			Assert.AreEqual(oldContact, newContact);

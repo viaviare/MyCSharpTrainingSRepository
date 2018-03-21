@@ -30,10 +30,28 @@ namespace WebAddressBookTests
 			ReturnHomePage();
 		}
 
+		public void Modify(ContactData contact, ContactData newData)
+		{
+			manager.NavigatorH.OpenMainPage();
+			SelectContactItem(contact.Id);
+			InitEditionContact(contact.Id);
+			FillContactFields(newData);
+			UpdateContact();
+			ReturnHomePage();
+		}
+
 		public void Remove(int index)
 		{
 			manager.NavigatorH.OpenMainPage();
 			SelectContactItem(index);
+			DeleteContact();
+			manager.NavigatorH.OpenMainPage();
+		}
+
+		public void Remove(ContactData contact)
+		{
+			manager.NavigatorH.OpenMainPage();
+			SelectContactItem(contact.Id);
 			DeleteContact();
 			manager.NavigatorH.OpenMainPage();
 		}
@@ -118,19 +136,30 @@ namespace WebAddressBookTests
 			Type(By.Name("lastname"), contact.LastName);
 		}
 
-		public void InitEditionContact(int index)
-		{
-			driver.FindElement(By.XPath("(//img[@alt='Edit'])[" + (index + 1) + "]")).Click();
-		}
-
 		public void InitViewDetailsContact(int index)
 		{
 			driver.FindElement(By.XPath("(//img[@alt='Details'])[" + (index + 1) + "]")).Click();
 		}
 
+		public void InitEditionContact(int index)
+		{
+			driver.FindElement(By.XPath("(//img[@alt='Edit'])[" + (index + 1) + "]")).Click();
+		}
+
+		public void InitEditionContact(string id)
+		{
+			driver.FindElement(By.XPath("//a[@href = 'edit.php?id=" + id + "']")).Click();
+		}
+
+
 		public void SelectContactItem(int index)
 		{
 			driver.FindElement(By.XPath("(//input[@name = 'selected[]'])[" + (index + 1) + "]")).Click();
+		}
+
+		public void SelectContactItem(string id)
+		{
+			driver.FindElement(By.XPath("//input[@name = 'selected[]' and @value = '" + id + "']")).Click();
 		}
 
 		public void UpdateContact()
