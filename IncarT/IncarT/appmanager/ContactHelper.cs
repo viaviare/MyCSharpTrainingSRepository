@@ -1,4 +1,5 @@
 ﻿using OpenQA.Selenium;
+using OpenQA.Selenium.Support.UI;
 using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
@@ -55,6 +56,58 @@ namespace WebAddressBookTests
 			DeleteContact();
 			manager.NavigatorH.OpenMainPage();
 		}
+
+
+		public void AddContactToGroup(ContactData contact, GroupData group)
+		{
+			manager.NavigatorH.OpenMainPage();
+			ClearGroupFilter();
+			SelectContactItem(contact.Id);
+			SelectGroupToAdd(group.Name);
+			CommitAddingContactToGroup();
+			new WebDriverWait(driver, TimeSpan.FromSeconds(10))
+				.Until(z => z.FindElements(By.CssSelector("div.msgbox")).Count > 0);
+		}
+
+		public void RemoveContactFromGroup(ContactData contact, GroupData group)
+		{
+			manager.NavigatorH.OpenMainPage();
+			ChooseCurrentGroupFilter(group.Name);
+			SelectContactItem(contact.Id);
+			CommitRemovalContactFromGroup();
+			new WebDriverWait(driver, TimeSpan.FromSeconds(10))
+				.Until(z => z.FindElements(By.CssSelector("div.msgbox")).Count > 0);
+		}
+
+		private void ClearGroupFilter()
+		{
+			var selectList = new SelectElement(driver.FindElement(By.Name("group")));
+			selectList.SelectByText("[all]");
+		}
+
+		private void SelectGroupToAdd(string name)
+		{
+			var selectList = new SelectElement(driver.FindElement(By.Name("to_group")));
+			selectList.SelectByText(name);
+		}
+
+		private void ChooseCurrentGroupFilter(string name)
+		{
+			var selectList = new SelectElement(driver.FindElement(By.Name("group")));
+			selectList.SelectByText(name);
+		}
+
+		private void CommitAddingContactToGroup()
+		{
+			driver.FindElement(By.Name("add")).Click();
+		}
+
+		private void CommitRemovalContactFromGroup()
+		{
+			driver.FindElement(By.Name("remove")).Click();
+		}
+
+
 
 		private List<ContactData> contactCache;
 
@@ -159,7 +212,7 @@ namespace WebAddressBookTests
 
 		public void SelectContactItem(string id)
 		{
-			driver.FindElement(By.XPath("//input[@name = 'selected[]' and @value = '" + id + "']")).Click();
+			driver.FindElement(By.Id(id)).Click();
 		}
 
 		public void UpdateContact()
