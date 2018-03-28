@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using NUnit.Framework;
+using System.Linq;
 
 namespace WebAddressBookTests
 {
@@ -9,10 +10,29 @@ namespace WebAddressBookTests
 		[Test]
 		public void DeleteContactFromGroupTest()
 		{
-			GroupData group = GroupData.GetAll()[0];
+			ContactData tempData = new ContactData("q", "q");
+			GroupData tempGroup = new GroupData("z", "z", "z");
+
+			app.ContactH.CheckCountContacts(tempData);
+			app.GroupH.CheckCountGroups(tempGroup);
+
+			//-----------------
+			GroupData group = new GroupData();
+
+			ContactData contact = ContactData.GetAll().First();
+			List<GroupData> contactGroups = contact.GetGroups();
+			if (contactGroups.Count() == 0)
+			{
+				group = GroupData.GetAll().First();
+				app.ContactH.AddContactToGroup(contact, group);
+			}
+			else
+			{
+				group = contactGroups.First();
+			}
 
 			List<ContactData> oldCont = group.GetContacts();
-			ContactData contact = oldCont[0];
+			//-----------------
 
 			app.ContactH.RemoveContactFromGroup(contact, group);
 

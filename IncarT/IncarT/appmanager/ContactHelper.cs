@@ -79,6 +79,14 @@ namespace WebAddressBookTests
 				.Until(z => z.FindElements(By.CssSelector("div.msgbox")).Count > 0);
 		}
 
+		public void CheckCountContacts(ContactData tempData)
+		{
+			if (CountContactItems() == 0)
+			{
+				Create(tempData);
+			}
+		}
+
 		private void ClearGroupFilter()
 		{
 			var selectList = new SelectElement(driver.FindElement(By.Name("group")));
@@ -180,6 +188,7 @@ namespace WebAddressBookTests
  
 		public int CountContactItems()
 		{
+			manager.NavigatorH.OpenMainPage();
 			return driver.FindElements(By.CssSelector("tr[name='entry']")).Count;
 		}
 

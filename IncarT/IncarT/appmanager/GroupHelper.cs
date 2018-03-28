@@ -88,6 +88,14 @@ namespace WebAddressBookTests
 			Type(By.Name("group_footer"), group.Footer);
 		}
 
+		public void CheckCountGroups(GroupData tempGroup)
+		{
+			if (CountGroupItems() == 0)
+			{
+				Create(tempGroup);
+			}
+		}
+
 		public void SelectGroupItem(int index)
 		{
 			driver.FindElement(By.XPath("(//input[@name='selected[]'])[" + (index + 1) + "]")).Click();

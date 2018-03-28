@@ -174,5 +174,16 @@ namespace WebAddressBookTests
 			}
 		}
 
+		public List<GroupData> GetGroups()
+		{
+			using (AddressbookDB db = new AddressbookDB())
+			{
+				return (from q in db.Groups
+						from g in db.GCR.Where(
+					p => p.ContactId == Id && p.GroupId == q.Id)
+						select q).ToList();
+			}
+		}
+
 	}
 }
