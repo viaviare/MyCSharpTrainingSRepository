@@ -181,7 +181,7 @@ namespace WebAddressBookTests
 			InitViewDetailsContact(index);
 			ContactData contact = new ContactData()
 			{
-				AllInfo = Regex.Replace(driver.FindElement(By.CssSelector("div#content")).Text, @"\r\n[HMW]:\s", "")
+				AllInfo = driver.FindElement(By.CssSelector("div#content")).Text
 			};
 			return contact;
 		}

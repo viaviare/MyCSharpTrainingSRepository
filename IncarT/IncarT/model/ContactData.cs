@@ -68,6 +68,63 @@ namespace WebAddressBookTests
 			set { allphones = value; }
 		}
 
+		public string AllPhonesForForm
+		{
+			get
+			{
+				if (allphones != null)
+				{
+					return allphones;
+				}
+				else
+				{
+					string allphones = "\r\n";
+
+					if (Home != null && Home != "")
+					{
+						if (Home.Trim().Length > 0)
+						{
+							allphones = allphones + "H: " + StrRN(Home);
+						}
+						else
+						{
+							allphones = allphones + "H:" + "\r\n";
+						}
+					}
+					if (Mobile != null && Mobile != "")
+					{
+						if (Mobile.Trim().Length > 0)
+						{
+							allphones = allphones + "M: " + StrRN(Mobile);
+						}
+						else
+						{
+							allphones = allphones + "M:" + "\r\n";
+						}
+					}
+					if (Work != null && Work != "")
+					{
+						if (Work.Trim().Length > 0)
+						{
+							allphones = allphones + "W: " + StrRN(Work);
+						}
+						else
+						{
+							allphones = allphones + "W:" + "\r\n";
+						}
+					}
+
+					return allphones;
+				}
+			}
+			set { allphones = value; }
+		}
+
+		private string StrRN(string phone)
+		{
+			return phone.Trim() + "\r\n";
+		}
+
 		private string ClearUp(string phone)
 		{
 			if (phone == null || phone == "")
@@ -86,7 +143,7 @@ namespace WebAddressBookTests
 					return allinfo;
 				}
 				return (FirstName + Convert.ToChar(32) + LastName + "\r\n"
-					+  Address + "\r\n" + Home + Mobile + Work).Trim();
+					+  Address + "\r\n" + AllPhonesForForm).Trim();
 
 			}
 			set
