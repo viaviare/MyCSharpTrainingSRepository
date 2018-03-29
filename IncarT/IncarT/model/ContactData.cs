@@ -18,6 +18,7 @@ namespace WebAddressBookTests
 		private string ayear = "2008";
 		private string allphones;
 		private string allinfo;
+		private string allemails;
 
 
 		public ContactData()
@@ -45,6 +46,15 @@ namespace WebAddressBookTests
 
 		[Column(Name = "address")]
 		public string Address { get; set; }
+
+		[Column(Name = "email")]
+		public string Email { get; set; }
+
+		[Column(Name = "email2")]
+		public string Email2 { get; set; }
+
+		[Column(Name = "email3")]
+		public string Email3 { get; set; }
 
 		[Column(Name = "id"), PrimaryKey, Identity]
 		public string Id { get; set; }
@@ -84,33 +94,33 @@ namespace WebAddressBookTests
 					{
 						if (Home.Trim().Length > 0)
 						{
-							allphones = allphones + "H: " + StrRN(Home);
+							allphones += "H: " + StrRN(Home);
 						}
 						else
 						{
-							allphones = allphones + "H:" + "\r\n";
+							allphones += "H:" + "\r\n";
 						}
 					}
 					if (Mobile != null && Mobile != "")
 					{
 						if (Mobile.Trim().Length > 0)
 						{
-							allphones = allphones + "M: " + StrRN(Mobile);
+							allphones += "M: " + StrRN(Mobile);
 						}
 						else
 						{
-							allphones = allphones + "M:" + "\r\n";
+							allphones += "M:" + "\r\n";
 						}
 					}
 					if (Work != null && Work != "")
 					{
 						if (Work.Trim().Length > 0)
 						{
-							allphones = allphones + "W: " + StrRN(Work);
+							allphones += "W: " + StrRN(Work);
 						}
 						else
 						{
-							allphones = allphones + "W:" + "\r\n";
+							allphones += "W:" + "\r\n";
 						}
 					}
 
@@ -119,6 +129,57 @@ namespace WebAddressBookTests
 			}
 			set { allphones = value; }
 		}
+
+		public string AllEmailsForForm
+		{
+			get
+			{
+				if (allemails != null)
+				{
+					return allemails;
+				}
+				else
+				{
+					string allemails = "\r\n";
+					if (Email != null && Email != "")
+					{
+						if (Email.Trim().Length > 0)
+						{
+							allemails += StrRN(Email);
+						}
+						else
+						{
+							allemails += "\r\n";
+						}
+					}
+					if (Email2 != null && Email2 != "")
+					{
+						if (Email2.Trim().Length > 0)
+						{
+							allemails += StrRN(Email2);
+						}
+						else
+						{
+							allemails += "\r\n";
+						}
+					}
+					if (Email3 != null && Email3 != "")
+					{
+						if (Email3.Trim().Length > 0)
+						{
+							allemails += StrRN(Email3);
+						}
+						else
+						{
+							allemails += "\r\n";
+						}
+					}
+					return allemails;
+				}
+			}
+			set { allemails = value; }
+		}
+
 
 		private string StrRN(string phone)
 		{
@@ -143,8 +204,7 @@ namespace WebAddressBookTests
 					return allinfo;
 				}
 				return (FirstName + Convert.ToChar(32) + LastName + "\r\n"
-					+  Address + "\r\n" + AllPhonesForForm).Trim();
-
+					+  Address + "\r\n" + AllPhonesForForm + AllEmailsForForm).Trim();
 			}
 			set
 			{
@@ -157,9 +217,6 @@ namespace WebAddressBookTests
 		public string Title { get; set; }
 		public string Company { get; set; }
 		public string Fax { get; set; }
-		public string Email { get; set; }
-		public string Email2 { get; set; }
-		public string Email3 { get; set; }
 		public string Homepage { get; set; }
 		public string Address2 { get; set; }
 		public string Phone2 { get; set; }

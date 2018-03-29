@@ -164,12 +164,20 @@ namespace WebAddressBookTests
 			string homePhone = driver.FindElement(By.CssSelector("input[name = 'home']")).GetAttribute("value");
 			string mobilePhone = driver.FindElement(By.CssSelector("input[name = 'mobile']")).GetAttribute("value");
 			string workPhone = driver.FindElement(By.CssSelector("input[name = 'work']")).GetAttribute("value");
+
+			string email1 = driver.FindElement(By.CssSelector("input[name = 'email']")).GetAttribute("value");
+			string email2 = driver.FindElement(By.CssSelector("input[name = 'email2']")).GetAttribute("value");
+			string email3 = driver.FindElement(By.CssSelector("input[name = 'email3']")).GetAttribute("value");
+
 			ContactData contact = new ContactData(firstName, lastName)
 			{
 				Address = address,
 				Home = homePhone,
 				Mobile = mobilePhone,
-				Work = workPhone
+				Work = workPhone,
+				Email = email1,
+				Email2 = email2,
+				Email3 = email3
 			};
 			return contact;
 		}
