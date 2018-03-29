@@ -1,6 +1,6 @@
 ﻿using NUnit.Framework;
 
-namespace mantis_projects_tests
+namespace mantis_project_tests
 {
 	public class TestBaseAuth : TestBase
 	{

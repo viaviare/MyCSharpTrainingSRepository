@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using OpenQA.Selenium;
 
-namespace mantis_projects_tests
+namespace mantis_project_tests
 {
 	public class ProjectManagementHelper : HelperBase
 	{

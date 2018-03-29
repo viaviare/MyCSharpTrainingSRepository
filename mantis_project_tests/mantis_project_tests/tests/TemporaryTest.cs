@@ -2,7 +2,7 @@
 using NUnit.Framework;
 
 
-namespace mantis_projects_tests
+namespace mantis_project_tests
 {
 	[TestFixture]
 	public class TemporaryTests : TestBaseAuth

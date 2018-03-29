@@ -1,6 +1,6 @@
 ﻿using LinqToDB;
 
-namespace mantis_projects_tests
+namespace mantis_project_tests
 {
 
 	public class BugtrackerBD : LinqToDB.Data.DataConnection

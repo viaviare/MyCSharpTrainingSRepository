@@ -3,7 +3,7 @@ using System.Linq;
 using LinqToDB.Mapping;
 using System.Collections.Generic;
 
-namespace mantis_projects_tests
+namespace mantis_project_tests
 {
 	[Table(Name = "mantis_project_table")]
 	public class ProjectData : IEquatable<ProjectData>, IComparable<ProjectData>

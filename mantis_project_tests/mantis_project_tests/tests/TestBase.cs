@@ -1,10 +1,10 @@
 ﻿using NUnit.Framework;
 
-namespace mantis_projects_tests
+namespace mantis_project_tests
 {
 	public class TestBase
 	{
-		public static bool PERFORM_LOGN_UI_CHECKS = true;
+		public static bool PERFORM_LOGN_UI_CHECKS = false;
 		protected ApplicationManager app;
 
 		[OneTimeSetUp]

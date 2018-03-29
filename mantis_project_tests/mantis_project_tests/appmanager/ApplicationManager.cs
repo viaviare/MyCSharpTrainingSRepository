@@ -3,7 +3,7 @@ using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using System.Threading;
 
-namespace mantis_projects_tests
+namespace mantis_project_tests
 {
 	public class ApplicationManager
 	{
@@ -13,6 +13,7 @@ namespace mantis_projects_tests
 		public ManagementMenuHelper ManagManuH { get; private set; }
 		public ProjectManagementHelper ProjectManagH { get; private set; }
 		public NavigationHelper NavigatorH { get; private set; }
+		public APIHelper ApiH { get; private set; }
 
 		private string baseURL;
 
@@ -28,6 +29,7 @@ namespace mantis_projects_tests
 			ManagManuH = new ManagementMenuHelper(this);
 			ProjectManagH = new ProjectManagementHelper(this);
 			NavigatorH = new NavigationHelper(this, baseURL);
+			ApiH = new APIHelper(this);
 		}
 
 		public static ApplicationManager GetInstance()
