@@ -5,6 +5,7 @@ using WebAddressBookTests;
 using System.Xml;
 using System.Xml.Serialization;
 using Newtonsoft.Json;
+using Excel = Microsoft.Office.Interop.Excel;
 
 namespace testDataGenerators
 {
@@ -14,8 +15,9 @@ namespace testDataGenerators
 		{
 			string typeFile = args[0];
 			int count = Convert.ToInt32(args[1]);
-			StreamWriter writer = new StreamWriter(args[2]);
+			string fileName = args[2];
 			string format = args[3];
+
 
 			List<GroupData> groups = new List<GroupData>();
 			List<ContactData> contacts = new List<ContactData>();
@@ -42,29 +44,59 @@ namespace testDataGenerators
 				}
 			}
 
-			if (format == "xml" && typeFile == "groups")
+			if (format == "excel" && typeFile == "groups")
 			{
-				WriteGroupsToXml(groups, writer);
-			}
-			else if (format == "json" && typeFile == "groups")
-			{
-				WriteGroupsToJson(groups, writer);
-			}
-			else if (format == "xml" && typeFile == "contacts")
-			{
-				WriteContactsToXml(contacts, writer);
-			}
-			else if (format == "json" && typeFile == "contacts")
-			{
-				WriteContactsToJson(contacts, writer);
+				WriteGroupsToExcel(groups, fileName);
 			}
 			else
 			{
-				Console.Out.Write("Unrecognized format: " + format);
+				StreamWriter writer = new StreamWriter(fileName);
+				if (format == "xml" && typeFile == "groups")
+				{
+					WriteGroupsToXml(groups, writer);
+				}
+				else if (format == "json" && typeFile == "groups")
+				{
+					WriteGroupsToJson(groups, writer);
+				}
+				else if (format == "xml" && typeFile == "contacts")
+				{
+					WriteContactsToXml(contacts, writer);
+				}
+				else if (format == "json" && typeFile == "contacts")
+				{
+					WriteContactsToJson(contacts, writer);
+				}
+				else
+				{
+					Console.Out.Write("Unrecognized format: " + format);
+				}
+
+				writer.Close();
+			}
+		}
+
+		static void WriteGroupsToExcel(List<GroupData> groups, string fileName)
+		{
+			Excel.Application app = new Excel.Application();
+			app.Visible = true;
+			Excel.Workbook wb = app.Workbooks.Add();
+			Excel.Worksheet sheet = wb.ActiveSheet;
+
+			int row = 1;
+			foreach (GroupData group in groups)
+			{
+				sheet.Cells[row, 1].Value = group.Name;
+				sheet.Cells[row, 2].Value = group.Header;
+				sheet.Cells[row, 3].Value = group.Footer;
+				row++;
 			}
 
-			writer.Close();
-
+			string fullPath = Path.Combine(Directory.GetCurrentDirectory(), fileName);
+			File.Delete(fullPath);
+			wb.SaveAs(fullPath);
+			wb.Close();
+			app.Quit();
 		}
 
 		static void WriteGroupsToXml(List<GroupData> groups, StreamWriter writer)
